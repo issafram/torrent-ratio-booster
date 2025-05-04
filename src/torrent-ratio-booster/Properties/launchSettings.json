@@ -1,0 +1,19 @@
+{
+  "profiles": {
+    "torrent-ratio-booster": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "port": "34555",
+        "ratio": "1.1"
+      }
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker",
+      "environmentVariables": {
+        "port": "34555",
+        "ratio": "1.1"
+      },
+      "publishAllPorts": true
+    }
+  }
+}
