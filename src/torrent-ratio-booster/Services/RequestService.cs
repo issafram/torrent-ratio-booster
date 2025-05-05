@@ -40,15 +40,12 @@ namespace TorrentRatioBooster.Services
                 {
                     foreach (var keyValuePair in headers)
                     {
-                        if (keyValuePair.Key.Equals("Host", StringComparison.OrdinalIgnoreCase))
-                        {
-                            continue;
-                        }
                         requestMessage.Headers.Add(keyValuePair.Key, keyValuePair.Value);
                     }
                 }
 
                 PrintEntireUriContents(requestMessage.RequestUri);
+                this.logger.LogDebug($"New Request headers: {requestMessage.Headers}");
                 this.logger.LogDebug($"Making request to: {requestMessage.RequestUri}");
                 //var clientResponse = await httpClient.GetAsync(modifiedUrl);
                 var clientResponse = await httpClient.SendAsync(requestMessage);

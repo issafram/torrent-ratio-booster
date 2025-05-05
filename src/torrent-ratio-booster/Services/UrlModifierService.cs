@@ -59,10 +59,10 @@ namespace TorrentRatioBooster.Services
             sb.Append(parser.Scheme);
             sb.Append(Uri.SchemeDelimiter);
             sb.Append(parser.Host);
-            sb.Append(":");
+            sb.Append(':');
             sb.Append(parser.Port);
             sb.Append(parser.Path);
-            sb.Append("?");
+            sb.Append('?');
             sb.Append(string.Join("&", collection.Select(x => $"{x.Key}={x.Value}")));
 
             return sb.ToString();
