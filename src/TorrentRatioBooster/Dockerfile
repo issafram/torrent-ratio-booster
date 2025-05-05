@@ -19,10 +19,10 @@ RUN apt-get update \
     clang zlib1g-dev
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["src/torrent-ratio-booster/torrent-ratio-booster.csproj", "src/torrent-ratio-booster/"]
-RUN dotnet restore "./src/torrent-ratio-booster/torrent-ratio-booster.csproj"
+COPY ["src/TorrentRatioBooster/torrent-ratio-booster.csproj", "src/torrent-ratio-booster/"]
+RUN dotnet restore "./src/TorrentRatioBooster/torrent-ratio-booster.csproj"
 COPY . .
-WORKDIR "/src/src/torrent-ratio-booster"
+WORKDIR "/src/src/TorrentRatioBooster"
 RUN dotnet build "./torrent-ratio-booster.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
