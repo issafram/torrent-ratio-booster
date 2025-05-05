@@ -19,7 +19,7 @@ RUN apt-get update \
     clang zlib1g-dev
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["src/TorrentRatioBooster/torrent-ratio-booster.csproj", "src/torrent-ratio-booster/"]
+COPY ["src/TorrentRatioBooster/torrent-ratio-booster.csproj", "src/TorrentRatioBooster/"]
 RUN dotnet restore "./src/TorrentRatioBooster/torrent-ratio-booster.csproj"
 COPY . .
 WORKDIR "/src/src/TorrentRatioBooster"
