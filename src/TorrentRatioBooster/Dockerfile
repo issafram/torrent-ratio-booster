@@ -19,16 +19,16 @@ RUN apt-get update \
     clang zlib1g-dev
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["src/TorrentRatioBooster/torrent-ratio-booster.csproj", "src/TorrentRatioBooster/"]
-RUN dotnet restore "./src/TorrentRatioBooster/torrent-ratio-booster.csproj"
+COPY ["src/TorrentRatioBooster/TorrentRatioBooster.csproj", "src/TorrentRatioBooster/"]
+RUN dotnet restore "./src/TorrentRatioBooster/TorrentRatioBooster.csproj"
 COPY . .
 WORKDIR "/src/src/TorrentRatioBooster"
-RUN dotnet build "./torrent-ratio-booster.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./TorrentRatioBooster.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./torrent-ratio-booster.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=true
+RUN dotnet publish "./TorrentRatioBooster.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=true
 
 # This stage is used as the base for the final stage when launching from VS to support debugging in regular mode (Default when not using the Debug configuration)
 FROM base AS aotdebug
