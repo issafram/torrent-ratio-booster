@@ -1,9 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace TorrentRatioBooster.Services
 {
@@ -41,31 +37,11 @@ namespace TorrentRatioBooster.Services
                 queryStringList[uploadIndex] = new KeyValuePair<string, string>("uploaded", uploadedValue.ToString());
             }
 
-            //queryStringList.ForEach(x =>
-            //{
-            //    if (!x.Key.Equals("uploaded", StringComparison.OrdinalIgnoreCase))
-            //    {
-            //        return;
-            //    }
-            //    x = new KeyValuePair<string, string>(x.Key, uploadedValue.ToString());
-            //});
-            //var queryStringList = ParseQueryString(parser.Query);
             queryStringList.ForEach(x => this.logger.LogDebug($"{x.Key} = {x.Value}"));
 
             var rebuiltUrl = RebuildUrl(parser, queryStringList);
             this.logger.LogDebug($"Rebuilt Url: {rebuiltUrl}");
             var valuesEqual = rebuiltUrl == originalUrl;
-            //this.logger.LogDebug($"Urls Equal: {valuesEqual}");
-
-            //Console.WriteLine("Character Comparison:");
-            //for (int i = 0; i < originalUrl.Length; i++)
-            //{
-            //    if (originalUrl[i] == rebuiltUrl[i])
-            //    {
-            //        continue;
-            //    }
-            //    Console.WriteLine($"Character mismatch at index {i}: '{originalUrl[i]}' != '{rebuiltUrl[i]}'");
-            //}
 
             return rebuiltUrl;
         }

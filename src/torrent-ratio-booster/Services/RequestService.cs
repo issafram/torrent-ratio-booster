@@ -23,15 +23,8 @@ namespace TorrentRatioBooster.Services
         [RequiresUnreferencedCode("Calls Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue<T>(String)")]
         public async Task<HttpResponseMessage> MakeModifiedRequestAsync(Dictionary<string, string> headers, string uri)
         {
-            double ratio = this.configuration.GetValue<double?>("ratio") ?? 1.0;
-            //ServicePointManager.ServerCertificateValidationCallback += (o, c, ch, er) => true;
+            double ratio = this.configuration.GetValue<double?>("RATIO") ?? 1.0;
             var httpClient = this.httpClientFactory.CreateClient("httpClient");
-            //var httpClient = new HttpClient(new HttpClientHandler
-            //{
-            //    ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true,
-            //    AllowAutoRedirect = true,
-            //    AutomaticDecompression = DecompressionMethods.None
-            //});
             httpClient.DefaultRequestHeaders.Clear();
 
             try

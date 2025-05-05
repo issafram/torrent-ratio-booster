@@ -22,7 +22,7 @@ namespace TorrentRatioBooster.Listeners
         [RequiresUnreferencedCode("Calls Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue<T>(String)")]
         public async Task ListenAsync()
         {
-            var port = this.configuration.GetValue<int?>("port");
+            var port = this.configuration.GetValue<int?>("PORT");
             if (port == null)
             {
                 throw new Exception("Port is not configured.");
@@ -90,6 +90,11 @@ namespace TorrentRatioBooster.Listeners
                             }
                             headers.Add(key, request.Headers[key]);
                         }
+                    }
+
+                    if (headers.Count > 0)
+                    {
+                        this.logger.LogDebug($"Original Request headers: {string.Join(", ", headers.Select(x => $"{x.Key}: {x.Value}"))}");
                     }
 
                     var proxiedResponse = await this.requestService.MakeModifiedRequestAsync(headers, request.RawUrl);

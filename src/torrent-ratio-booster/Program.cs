@@ -47,22 +47,6 @@ namespace TorrentRatioBooster
             }
 
             await listener.ListenAsync();
-
-            //var port = 34555;
-            //var listenerType = "http";
-
-
-
-            //if (listenerType == "tcp")
-            //{
-            //    var listener = new TcpListener(port);
-            //    await listener.StartTcpListnerAsync();
-            //}
-            //else if (listenerType == "http")
-            //{
-            //    var listener = new HttpListener(port);
-            //    await listener.StartHttpListenerAsync();
-            //}
         }
     }
 }
