@@ -3,7 +3,7 @@ using System.Text;
 
 namespace TorrentRatioBooster.Services
 {
-    internal class UrlModifierService : IUrlModifierService
+    public class UrlModifierService : IUrlModifierService
     {
         private readonly ILogger<UrlModifierService> logger;
 

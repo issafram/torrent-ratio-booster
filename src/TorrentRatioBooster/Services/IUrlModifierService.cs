@@ -1,6 +1,6 @@
 ﻿namespace TorrentRatioBooster.Services
 {
-    internal interface IUrlModifierService
+    public interface IUrlModifierService
     {
         string GetModifiedUrl(string originalUrl, double ratio);
     }
