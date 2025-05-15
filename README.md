@@ -6,7 +6,7 @@ Example docker compose usage:
 services:
     torrent-ratio-booster:
         container_name: torrent-ratio-booster
-        image: ghcr.io/issafram/torrent-ratio-booster:main
+        image: ghcr.io/issafram/torrent-ratio-booster:latest
         restart: unless-stopped
         ports:
             - "34555:34555/tcp"
