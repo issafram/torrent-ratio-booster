@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
-using System.Net;
 
 namespace TorrentRatioBooster.Services
 {
@@ -68,6 +67,12 @@ namespace TorrentRatioBooster.Services
             {
                 return;
             }
+
+            if (this.logger.IsEnabled(LogLevel.Trace) == false)
+            {
+                return;
+            }
+
             this.logger.LogTrace($"ToString: {requestUri}");
             this.logger.LogTrace($"AbsoluteUri: {requestUri.AbsoluteUri}");
             this.logger.LogTrace($"OriginalString: {requestUri.OriginalString}");
