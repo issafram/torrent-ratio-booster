@@ -27,7 +27,7 @@ namespace TorrentRatioBooster.Services
             }
 
             var downloadedValue = queryStringList.FirstOrDefault(x => x.Key.Equals("downloaded", StringComparison.OrdinalIgnoreCase)).Value;
-            var uploadedValue = (ulong)Convert.ToInt64(Math.Ceiling(Convert.ToUInt64(downloadedValue) * ratio));
+            var uploadedValue = Convert.ToUInt64(Math.Ceiling(Convert.ToUInt64(downloadedValue) * ratio));
 
             this.logger.LogInformation($"Reporting downloaded: {downloadedValue} - Reporting uploaded: {uploadedValue}");
 
