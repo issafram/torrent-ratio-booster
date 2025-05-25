@@ -1,3 +1,9 @@
+LABEL org.opencontainers.image.source="https://github.com/issafram/torrent-ratio-booster"
+LABEL org.opencontainers.image.description="Proxy server to intercept torrent announce requests and modify uploaded value to increase your ratio."
+LABEL org.opencontainers.image.licenses="GPL-3.0-only"
+LABEL org.opencontainers.image.authors="Issa Fram"
+LABEL org.opencontainers.image.title="Torrent Ratio Booster"
+
 # See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 # These ARGs allow for swapping out the base used to make the final image when debugging from VS
