@@ -9,6 +9,7 @@
     <PublishAot>true</PublishAot>
     <InvariantGlobalization>true</InvariantGlobalization>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileFile>../../Dockerfile</DockerfileFile>
     <DockerfileRunArguments>-p 34555:34555</DockerfileRunArguments>
   </PropertyGroup>
 
