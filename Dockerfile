@@ -1,9 +1,3 @@
-LABEL org.opencontainers.image.source="https://github.com/issafram/torrent-ratio-booster"
-LABEL org.opencontainers.image.description="Proxy server to intercept torrent announce requests and modify uploaded value to increase your ratio."
-LABEL org.opencontainers.image.licenses="GPL-3.0-only"
-LABEL org.opencontainers.image.authors="Issa Fram"
-LABEL org.opencontainers.image.title="Torrent Ratio Booster"
-
 # See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 # These ARGs allow for swapping out the base used to make the final image when debugging from VS
@@ -47,6 +41,13 @@ USER app
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM ${FINAL_BASE_IMAGE:-mcr.microsoft.com/dotnet/runtime-deps:9.0} AS final
+
+LABEL org.opencontainers.image.source="https://github.com/issafram/torrent-ratio-booster"
+LABEL org.opencontainers.image.description="Proxy server to intercept torrent announce requests and modify uploaded value to increase your ratio."
+LABEL org.opencontainers.image.licenses="GPL-3.0-only"
+LABEL org.opencontainers.image.authors="Issa Fram"
+LABEL org.opencontainers.image.title="Torrent Ratio Booster"
+
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["./TorrentRatioBooster"]
