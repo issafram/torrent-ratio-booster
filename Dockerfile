@@ -50,4 +50,6 @@ LABEL org.opencontainers.image.title="Torrent Ratio Booster"
 
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+USER app
 ENTRYPOINT ["./TorrentRatioBooster"]
