@@ -49,7 +49,8 @@ LABEL org.opencontainers.image.authors="Issa Fram"
 LABEL org.opencontainers.image.title="Torrent Ratio Booster"
 
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --chown=app:app --from=publish /app/publish .
+RUN mkdir -p /app/logs && chown -R app:app /app/logs
 
 USER app
 ENTRYPOINT ["./TorrentRatioBooster"]
