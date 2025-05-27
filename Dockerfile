@@ -12,11 +12,11 @@ WORKDIR /app
 
 
 # This stage is used to build the service project
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine AS build
 # Install clang/zlib1g-dev dependencies for publishing to native
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-    clang zlib1g-dev
+RUN apk update \
+    && apk add clang \
+    && apk add zlib-dev
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["src/TorrentRatioBooster/TorrentRatioBooster.csproj", "src/TorrentRatioBooster/"]
@@ -40,7 +40,7 @@ RUN apt-get update \
 USER app
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
-FROM ${FINAL_BASE_IMAGE:-mcr.microsoft.com/dotnet/runtime-deps:9.0} AS final
+FROM ${FINAL_BASE_IMAGE:-mcr.microsoft.com/dotnet/runtime-deps:9.0-alpine} AS final
 
 LABEL org.opencontainers.image.source="https://github.com/issafram/torrent-ratio-booster"
 LABEL org.opencontainers.image.description="Proxy server to intercept torrent announce requests and modify uploaded value to increase your ratio."
