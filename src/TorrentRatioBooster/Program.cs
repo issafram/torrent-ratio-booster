@@ -32,7 +32,7 @@ namespace TorrentRatioBooster
                     x.AddNLog();
                 });
 
-            serviceCollection.AddHttpClient("httpClient").ConfigurePrimaryHttpMessageHandler(() =>
+            serviceCollection.AddHttpClient(Constants.HttpClientName).ConfigurePrimaryHttpMessageHandler(() =>
             {
                 return new HttpClientHandler
                 {

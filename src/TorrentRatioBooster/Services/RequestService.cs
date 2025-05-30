@@ -23,7 +23,7 @@ namespace TorrentRatioBooster.Services
         public async Task<HttpResponseMessage> MakeModifiedRequestAsync(Dictionary<string, string> headers, string uri)
         {
             double ratio = this.configuration.GetValue<double?>("RATIO") ?? 1.0;
-            var httpClient = this.httpClientFactory.CreateClient("httpClient");
+            var httpClient = this.httpClientFactory.CreateClient(Constants.HttpClientName);
             httpClient.DefaultRequestHeaders.Clear();
 
             try
