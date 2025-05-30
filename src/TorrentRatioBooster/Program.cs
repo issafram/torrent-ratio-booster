@@ -12,6 +12,9 @@ namespace TorrentRatioBooster
     {
         static async Task Main(string[] args)
         {
+            Console.WriteLine("Copyright (c) 2025 Issa Fram");
+            Console.WriteLine("Starting TorrentRatioBooster...");
+
             var configuration = new ConfigurationBuilder()
                 .AddEnvironmentVariables()
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
