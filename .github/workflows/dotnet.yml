@@ -5,9 +5,9 @@ name: .NET
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "*" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "*" ]
 
 jobs:
   build:
@@ -24,5 +24,12 @@ jobs:
       run: cd src && dotnet restore
     - name: Build
       run: cd src && dotnet build --no-restore
+    - name: Publish
+      run: cd src && dotnet publish -c Release -o ../torrent-ratio-booster -r linux-x64 --self-contained true /p:UseAppHost=true
     - name: Test
       run: cd src && dotnet test --no-build --verbosity normal
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+          name: my-artifact
+          path: src/
