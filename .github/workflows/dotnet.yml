@@ -9,11 +9,12 @@ on:
   pull_request:
     branches: [ "*" ]
 
+permissions:
+  contents: write
+
 jobs:
-  build:
-
+  build-linux:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
     - name: Setup .NET
@@ -24,12 +25,127 @@ jobs:
       run: cd src && dotnet restore
     - name: Build
       run: cd src && dotnet build --no-restore
-    - name: Publish
-      run: cd src && dotnet publish -c Release -o ../torrent-ratio-booster -r linux-x64 --self-contained true /p:UseAppHost=true
     - name: Test
-      run: cd src && dotnet test --no-build --verbosity normal
+      run: ls && cd src && dotnet test --no-build --verbosity normal && cd ..
+    - name: Publish linux-x64
+      run: cd src/TorrentRatioBooster && dotnet publish -p:PublishSingleFile=True -c Release -o ../published/linux-x64 -r linux-x64 --self-contained true /p:UseAppHost=true
     - name: Upload artifact
+      if: github.ref == 'refs/heads/main'
       uses: actions/upload-artifact@v4
       with:
-          name: my-artifact
-          path: src/
+          name: linux-x64-self-contained
+          path: src/published/linux-x64
+
+  build-windows-x64:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.x
+    - name: Restore dependencies
+      run: cd src && dotnet restore
+    - name: Build
+      run: cd src && dotnet build --no-restore
+    - name: Test
+      run: ls && cd src && dotnet test --no-build --verbosity normal && cd ..
+    - name: Publish win-x64
+      run: cd src/TorrentRatioBooster && dotnet publish -p:PublishSingleFile=True -c Release -o ../published/win-x64 -r win-x64 --self-contained true /p:UseAppHost=true
+    - name: Upload artifact
+      if: github.ref == 'refs/heads/main'
+      uses: actions/upload-artifact@v4
+      with:
+          name: win-x64-self-contained
+          path: src/published/win-x64
+
+  build-windows-x86:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.x
+    - name: Restore dependencies
+      run: cd src && dotnet restore
+    - name: Build
+      run: cd src && dotnet build --no-restore
+    - name: Test
+      run: ls && cd src && dotnet test --no-build --verbosity normal && cd ..
+    - name: Publish win-x86
+      run: cd src/TorrentRatioBooster && dotnet publish -p:PublishSingleFile=True -c Release -o ../published/win-x86 -r win-x86 --self-contained true /p:UseAppHost=true
+    - name: Upload artifact
+      if: github.ref == 'refs/heads/main'
+      uses: actions/upload-artifact@v4
+      with:
+          name: win-x86-self-contained
+          path: src/published/win-x86
+
+  build-mac-arm64:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.x
+    - name: Restore dependencies
+      run: cd src && dotnet restore
+    - name: Build
+      run: cd src && dotnet build --no-restore
+    - name: Test
+      run: ls && cd src && dotnet test --no-build --verbosity normal && cd ..
+    - name: Publish osx-arm64
+      run: cd src/TorrentRatioBooster && dotnet publish -p:PublishSingleFile=True -c Release -o ../published/osx-arm64 -r osx-arm64 --self-contained true /p:UseAppHost=true
+    - name: Upload artifact
+      if: github.ref == 'refs/heads/main'
+      uses: actions/upload-artifact@v4
+      with:
+          name: osx-arm64-self-contained
+          path: src/published/osx-arm64
+
+  build-mac-x64:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.x
+    - name: Restore dependencies
+      run: cd src && dotnet restore
+    - name: Build
+      run: cd src && dotnet build --no-restore
+    - name: Test
+      run: ls && cd src && dotnet test --no-build --verbosity normal && cd ..
+    - name: Publish osx-x64
+      run: cd src/TorrentRatioBooster && dotnet publish -p:PublishSingleFile=True -c Release -o ../published/osx-x64 -r osx-x64 --self-contained true /p:UseAppHost=true
+    - name: Upload artifact
+      if: github.ref == 'refs/heads/main'
+      uses: actions/upload-artifact@v4
+      with:
+          name: osx-x64-self-contained
+          path: src/published/osx-x64
+
+  create-release:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    needs: [build-linux, build-windows-x64, build-windows-x86, build-mac-arm64, build-mac-x64]
+    steps:
+    - uses: actions/checkout@v4
+    - name: Download artifacts
+      uses: actions/download-artifact@v4
+    - name: Zip assets
+      run: |
+        ls -R
+        cd linux-x64-self-contained && zip -r -X linux-x64-self-contained.zip . && ls -R
+        cd ../osx-arm64-self-contained && zip -r -X osx-arm64-self-contained.zip . && ls -R
+        cd ../osx-x64-self-contained && zip -r -X osx-x64-self-contained.zip . && ls -R
+        cd ../win-x64-self-contained && zip -r -X win-x64-self-contained.zip . && ls -R
+        cd ../win-x86-self-contained && zip -r -X win-x86-self-contained.zip . && ls -R
+    - name: Create draft release
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        gh release create v1.0.0 linux-x64-self-contained/linux-x64-self-contained.zip osx-arm64-self-contained/osx-arm64-self-contained.zip osx-x64-self-contained/osx-x64-self-contained.zip win-x64-self-contained/win-x64-self-contained.zip win-x86-self-contained/win-x86-self-contained.zip --draft --title "Draft Release" --notes "Release notes here"

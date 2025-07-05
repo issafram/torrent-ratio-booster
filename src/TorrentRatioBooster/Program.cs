@@ -15,10 +15,16 @@ namespace TorrentRatioBooster
             Console.WriteLine("Copyright (c) 2025 Issa Fram");
             Console.WriteLine("Starting TorrentRatioBooster...");
 
-            var configuration = new ConfigurationBuilder()
-                .AddEnvironmentVariables()
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .Build();
+            var dotNetRunningInContainerValue = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER");
+            var runningInContainer = !string.IsNullOrEmpty(dotNetRunningInContainerValue) && dotNetRunningInContainerValue.Equals("true", StringComparison.OrdinalIgnoreCase);
+
+            IConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
+            configurationBuilder = configurationBuilder.AddEnvironmentVariables();
+            if (runningInContainer == false)
+            {
+                configurationBuilder = configurationBuilder.AddCommandLine(args);
+            }
+            var configuration = configurationBuilder.Build();
 
             var serviceCollection = new ServiceCollection()
                 .AddTransient<IUrlModifierService, UrlModifierService>()
