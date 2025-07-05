@@ -1,5 +1,15 @@
 # torrent-ratio-booster
-Easily boost your torrent ratio.  This acts as a proxy server.  Configure your torrent client to point to the running app/container.
+Easily boost your torrent ratio.  This cross-platform application acts as a proxy server.  Configure your torrent client to point to the running app/container.
+
+Example Linux / macOS console application usage:
+```
+./TorrentRatioBooster port=34555 ratio=2.0
+```
+
+Example Windows console application usage:
+```
+.\TorrentRatioBooster.exe port=34555 ratio=2.0
+```
 
 Example docker compose usage:
 ```
